@@ -6,6 +6,14 @@
 * \version 1.0
 */
 
+//! Archive Description.
+/*!
+* \author Matheus Barbi. M.
+  \author Rodri Jost. 
+* \since 31/07/2022
+* \version 1.0
+*/
+
 #define tst_bit(Y,bit_x)  (Y&(1<<bit_x)) 
 #define set_bit(Y, bit_x) (Y|=(1<<bit_x))
 #define clr_bit(Y, bit_x) (Y&=~(1<<bit_x))
@@ -15,8 +23,11 @@ unsigned int value = 0;
 
 ISR(TIMER2_OVF_vect)
 {
-  set_bit(ADCSRA, ADSC);
-  value = (ADCH << 8 | ADCL);
+  set_bit(ADCSRA, ADSC); 
+  while(tst_bit(ADCSRA, ADSC));
+
+  //value = (ADCH << 8 | ADCL);
+  value = ADC;
 }
 
 void setup() 
@@ -30,16 +41,18 @@ void setup()
     ADC Config, 128.
   */
   ADCSRA = 0b10000111;
+  ADCSRB = 0b00000000;
   ADMUX = 0b01000000;
-
+  
+ 
   /*!
     T2 OVF MODE, .
   */
   TCCR2A = 0x00;
   TCCR2B = 0x00;
-  TCCR2B |= (1<<CS21)|(1 << CS20); // Configurar PreScaler
+  TCCR2B |= (1<<CS21); // Configurar PreScaler
 
-  TCNT0 = 0x00;
+  TCNT2 = 0x00;
 
   set_bit(TIMSK2, TOIE2);
 
