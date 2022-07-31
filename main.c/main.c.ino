@@ -16,9 +16,6 @@ unsigned int value = 0;
 ISR(TIMER2_OVF_vect)
 {
   set_bit(ADCSRA, ADSC);
-  while(!(clr_bit(ADCSRA, ADIF)));
-  set_bit(ADCSRA, ADIF);
-
   value = (ADCH << 8 | ADCL);
 }
 
@@ -32,7 +29,7 @@ void setup()
   /*!
     ADC Config, 128.
   */
-  ADCSRA = 0b10010111;
+  ADCSRA = 0b10000111;
   ADMUX = 0b01000000;
 
   /*!
