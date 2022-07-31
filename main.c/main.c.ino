@@ -6,14 +6,6 @@
 * \version 1.0
 */
 
-//! Archive Description.
-/*!
-* \author Matheus Barbi. M.
-  \author Rodri Jost. 
-* \since 31/07/2022
-* \version 1.0
-*/
-
 #define tst_bit(Y,bit_x)  (Y&(1<<bit_x)) 
 #define set_bit(Y, bit_x) (Y|=(1<<bit_x))
 #define clr_bit(Y, bit_x) (Y&=~(1<<bit_x))
@@ -25,8 +17,6 @@ ISR(TIMER2_OVF_vect)
 {
   set_bit(ADCSRA, ADSC); 
   while(tst_bit(ADCSRA, ADSC));
-
-  //value = (ADCH << 8 | ADCL);
   value = ADC;
 }
 
@@ -44,7 +34,7 @@ void setup()
   ADCSRB = 0b00000000;
   ADMUX = 0b01000000;
   
- 
+
   /*!
     T2 OVF MODE, .
   */
